@@ -40,13 +40,17 @@ public class soundex {
 			//Delete identical following digits
 			for (int j = 1; j < soundex.length(); j++)
 				if (soundex.charAt(j - 1) == soundex.charAt(j) 
-									&& soundex.charAt(j) != '-')
+									&& soundex.charAt(j) != '-') {
 					soundex.deleteCharAt(j - 1);
+					j--;
+				}
 			
 			//Delete all dashes
 			for (int k = 0; k < soundex.length(); k++)
-				if (soundex.charAt(k) == '-')
+				if (soundex.charAt(k) == '-') {
 					soundex.deleteCharAt(k);
+					k--;
+				}
 			
 			//Append or Prepend first character letter
 			if (swap.get(original.charAt(0)) >= '0' 
