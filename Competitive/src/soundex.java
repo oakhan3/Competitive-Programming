@@ -68,5 +68,7 @@ public class soundex {
 			
 			System.out.println(original + " => " + soundex.toString());		
 		}
+		
+		scan.close();
 	}
 }

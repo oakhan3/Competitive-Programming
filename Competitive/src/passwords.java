@@ -70,6 +70,7 @@ public class passwords {
 				}
 			}
 			System.out.println(pass.toString());
-		}	
+		}
+		scan.close();
 	}
 }

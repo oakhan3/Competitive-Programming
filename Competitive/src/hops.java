@@ -75,5 +75,6 @@ public class hops {
 				System.out.println();
 			}
 		}
+		scan.close();
 	}
 }

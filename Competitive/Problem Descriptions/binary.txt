@@ -1,0 +1,134 @@
+Binary Addition
+------ --------
+
+Computers store numbers to base 2, instead of base 10.
+Such numbers are called binary.
+
+Binary numbers many be added in exactly the same way
+as decimal numbers are added.  The difference is
+that the binary addition table is:
+
+	0 + 0 + 0 ===> 0 with NO carry
+	0 + 0 + 1 ===> 1 with NO carry
+	0 + 1 + 0 ===> 1 with NO carry
+	0 + 1 + 1 ===> 0 with    carry
+	1 + 0 + 0 ===> 1 with NO carry
+	1 + 0 + 1 ===> 0 with    carry
+	1 + 1 + 0 ===> 0 with    carry
+	1 + 1 + 1 ===> 1 with    carry
+
+You are to read in a pair of unsigned binary numbers
+and output the addition of these in the same format
+as you used in elementary school to add decimal numbers.
+The output will include a line for carries, and a
+horizontal bar to separate the operands from the sum.
+
+Input
+-----
+
+The input consists of pairs of binary integers which are
+to be added.  Each binary integer consists of a string
+of 1 to 80 digits, where each digit is a `0' or a `1'.
+Each binary integer is on a line by itself, and may be
+preceded (but not followed) by SPACE characters.
+
+There may optionally be blank lines in the input that
+are to be ignored.  These blank lines can contain SPACE
+characters but nothing else.
+
+Output
+------
+
+For each pair of binary integers input, you are to add
+the integers and produce the following 6 lines of
+output:
+
+    line 1:	a line containing exactly `BINARY SUM:'
+    		and nothing else
+    line 2:	carries
+    line 3:	operand 1 (first integer read)
+    line 4:	operand 2 (second integer read)
+    line 5:	horizontal bar of `-'s
+    line 6:	sum
+    line 7:	an blank line
+
+The blank line is to have NO SPACE or TAB characters.
+
+Lines 2, 3, 4, 5, and 6 must have exactly n characters
+followed by a line feed, where:
+
+	n = max ( n1, n2 ) + 1
+	n1 = number of digits in operand1
+	n2 = number of digits in operand2
+
+The operand lines are to have the input numbers right
+adjusted, with preceding SPACEs.  However, high order
+zeros in the input are to be RETAINED, and not removed.
+
+The horizontal bar has exactly n `-' characters.
+
+The sum must have exactly n digits, each a `0' or a
+`1'.  High other zeros are RETAINED, and often
+the first column is `0'.
+
+The carry line has a `1' in every column for which there
+is a carry, and a SPACE in every column for which there
+is no carry.  Note that if there are no carries at all,
+there will be n SPACEs followed by a line feed.
+
+The output must be PRECISELY as described.
+
+
+Example Input
+------- -----
+
+11
+0101
+
+1010
+1011
+
+001010100
+01101
+
+Example Output
+------- ------
+
+BINARY SUM:
+ 111 
+   11
+ 0101
+-----
+01000
+
+BINARY SUM:
+1 1  
+ 1010
+ 1011
+-----
+10101
+
+BINARY SUM:
+    111   
+ 001010100
+     01101
+----------
+0001100001
+
+
+
+
+File:	binary.txt
+Author:	Bob Walton <walton@deas.harvard.edu>
+Date:	Fri Apr 28 06:11:02 EDT 2006
+
+The authors have placed this file in the public domain;
+they make no warranty and accept no liability for this
+file.
+
+RCS Info (may not be true date or author):
+
+    $Author: hc3 $
+    $Date: 2006/04/28 10:16:57 $
+    $RCSfile: binary.txt,v $
+    $Revision: 1.3 $
