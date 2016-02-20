@@ -1,4 +1,4 @@
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.Scanner;
@@ -13,63 +13,92 @@ public class relativeneighbor {
 			
 			String casename = scan.nextLine();
 			
-			//If it is a Case, the next input should be an Int
+			//If it is a Case, the next input should be an int
 			if (scan.hasNextInt()) {
 				int N = scan.nextInt();
 				
 				point[] points = new point[N];
-				boolean[] marked = new boolean[N];
-				String[] chosen = new String[N - 1];
+				ArrayList<edge> chosen = new ArrayList<edge>();
 				
 				//Take in all Points
-				for (int i = 0; i < N; i++) {
+				for (int i = 0; i < N; i++)
 					if (scan.hasNextDouble())
-						if (scan.hasNextDouble())
 							points[i] = new point(scan.nextDouble(), scan.nextDouble());
-				}
+					
+				double[][] matrix = new double[N][N];
 				
-				PriorityQueue<edge> eq = new PriorityQueue<edge>(N, new Comparator<edge>() {
+				PriorityQueue<edge> eq = new PriorityQueue<edge>
+				(N, new Comparator<edge>() {
 					public int compare(edge a, edge b) {
 						return (a.gDiff() > b.gDiff()) ? 1 : (a.gDiff() < b.gDiff()) ? -1 : 0;
-					}});
+						}
+					}
+				);
 				
 				//Take in all possible Edges, sorting through a priority queue
 				for (int j = 0; j < N; j++) {
-					for (int k = j + 1; k < N ; k++) {
-						eq.add(new edge(j, k, points[j], points[k]));
+					for (int k = j + 1; k < N ; k++) {			
+						edge temp = new edge(j, k, points[j], points[k]);
+						matrix[j][k] = temp.gDiff();
+						eq.add(temp);
 					}
 				}
-				
+
 				int qSize = eq.size();
-				int p = 0;
+				int e = 0;
+				boolean isRelative;
 				
 				//Pop the shortest edge, store for recollection
 				//							if it includes an unreviewed point
 				for (int m = 0; m < qSize; m++) {
 					edge temp = eq.poll();
+					isRelative = true;
 					
-					if (!marked[temp.pnt1()] || !marked[temp.pnt2()]) {
-						marked[temp.pnt1()] = true;
-						marked[temp.pnt2()] = true;
-						chosen[p++] = (temp.pnt1() + 1) + " " + (temp.pnt2() + 1);
+					for (int y = 0; y < N; y++)
+						if (y != temp.pnt1() && y != temp.pnt2())
+							if (matrix[Math.min(temp.pnt1(), y)][Math.max(temp.pnt1(), y)] < temp.gDiff() 
+									&& matrix[Math.min(temp.pnt2(), y)][Math.max(temp.pnt2(), y)] < temp.gDiff()) {
+								isRelative = false;
+								break;
+								}
+					
+					if (isRelative) {
+						chosen.add(temp);
+						e++;
+						isRelative = false;
+					}
+					
+					if (e == (N - 1))
+						break;
+				}
+				
+				//Sort the output, TODO: implement better sorting method
+				for (int i = 0; i < chosen.size(); i++) {
+					for (int j = 0; j < chosen.size(); j++) {
+						if (i != j) {
+							if (chosen.get(i).pnt1() < chosen.get(j).pnt1())
+								chosen.add(j, chosen.remove(i));
+							else if (chosen.get(i).pnt1() == chosen.get(j).pnt1()) {
+								if (chosen.get(i).pnt2() < chosen.get(j).pnt2())
+									chosen.add(j, chosen.remove(i));
+							}
+						}
 					}
 				}
 				
-				//Sort and Output
-				Arrays.sort(chosen);
-				
+				//Print final output
 				System.out.println(casename);
 				
-				for (int r = 0; r < N - 1; r++)
-					System.out.println(chosen[r]);
+				for (edge a : chosen)
+					System.out.println(a.ts());
 			}
 		}
+		scan.close();
 	}
+	
 }
 
 class edge {
-	private point p1;
-	private point p2;
 	private int pt1;
 	private int pt2;
 	private double diff;
@@ -77,8 +106,6 @@ class edge {
 	public edge(int pt1, int pt2, point p1, point p2) {
 		this.pt1 = pt1;
 		this.pt2 = pt2;
-		this.p1 = p1;
-		this.p2 = p2;
 		this.diff = Math.sqrt(
 				      Math.pow(p1.gX() - p2.gX(), 2) 
 				    + Math.pow(p1.gY() - p2.gY(), 2));
@@ -94,6 +121,10 @@ class edge {
 
 	public double gDiff() {
 		return diff;
+	}
+	
+	public String ts() {
+		return (pt1+1) + " " + (pt2+1);
 	}
 }
 
