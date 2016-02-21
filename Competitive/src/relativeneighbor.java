@@ -48,8 +48,7 @@ public class relativeneighbor {
 				int e = 0;
 				boolean isRelative;
 				
-				//Pop the shortest edge, store for recollection
-				//							if it includes an unreviewed point
+				//Pop the shortest edge, store if relative
 				for (int m = 0; m < qSize; m++) {
 					edge temp = eq.poll();
 					isRelative = true;
@@ -123,8 +122,8 @@ class edge {
 		return diff;
 	}
 	
-	public String ts() {
-		return (pt1+1) + " " + (pt2+1);
+	public String tS() {
+		return (pt1 + 1) + " " + (pt2 + 1);
 	}
 }
 
