@@ -89,7 +89,7 @@ public class relativeneighbor {
 				System.out.println(casename);
 				
 				for (edge a : chosen)
-					System.out.println(a.ts());
+					System.out.println(a.tS());
 			}
 		}
 		scan.close();
