@@ -1,7 +1,7 @@
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.Stack;
-
+//INCOMPLETE
 public class monotonic {
 	private static Stack<Object> sum;
 	private static double L, H;	
@@ -184,8 +184,10 @@ public class monotonic {
 			System.out.println();
 			
 			
+			
 		}
-
+		scan.close();
 	}
+	
 
 }
