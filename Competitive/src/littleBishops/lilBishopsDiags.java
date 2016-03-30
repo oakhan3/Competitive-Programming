@@ -1,12 +1,13 @@
+package littleBishops;
 import java.util.Hashtable;
 import java.util.Scanner;
 
-public class lilBishopsObj {
+public class lilBishopsDiags {
 	//n is chessboard size
 	//k is # of bishops
 	private static int n, k, solution;
 
-	private static void backtrack(int bish, int x, int y, Hashtable<Mark, Boolean> topLeft, Hashtable<Mark, Boolean> topRight) {
+	private static void backtrack(int bish, int x, int y, Hashtable<Double, Boolean> topLeft, Hashtable<Double, Boolean> topRight) {
 		//Move on to the next position without placing a bishop this time
 		if (x < (n - 1))
 			backtrack(bish, x + 1, y, topLeft, topRight);
@@ -15,7 +16,7 @@ public class lilBishopsObj {
 		
 		int a = x -  ((x < y) ? x :y);
 		int b = y -  ((x < y) ? x :y);
-		
+		 
 		int c = x;
 		int d = y;
 		//gives top right
@@ -24,15 +25,8 @@ public class lilBishopsObj {
 			d++;
 		}
 		
-		Mark left = new Mark(a, b);
-		Mark right = new Mark(c, d);
-		
-		if (topLeft.containsKey(new Mark(c, d)))
-			System.out.println("LALA");
-		
-		if (topRight.containsKey(new Mark(a, b)))
-			System.out.println("LALA");
-		
+		double left = .5*(a + b)*(a + b + 1) + b;
+		double right = .5*(c + d)*(c + d + 1) + d;
 				
 		//If you can possibly place a Bishop on attempt[x][y]
 		if (topLeft.get(left) == false && topRight.get(right) == false) {
@@ -57,8 +51,8 @@ public class lilBishopsObj {
 	}
 	
 	private static void setup() {
-		Hashtable<Mark, Boolean> topLeft  = new Hashtable<Mark, Boolean>();
-		Hashtable<Mark, Boolean> topRight = new Hashtable<Mark, Boolean>();
+		Hashtable<Double, Boolean> topLeft  = new Hashtable<Double, Boolean>();
+		Hashtable<Double, Boolean> topRight = new Hashtable<Double, Boolean>();
 		
 		int a = n-1;
 		int b = 0;
@@ -68,7 +62,7 @@ public class lilBishopsObj {
 				a = 0;
 			if (i > ((n*2)-1)/2)
 				b++;
-			topLeft.put(new Mark(a, b), false);
+			topLeft.put(.5*(a + b)*(a + b + 1) + b, false);
 			a--;
 		}
 		
@@ -78,7 +72,7 @@ public class lilBishopsObj {
 		for (int i = 0; i < (n*2)-1; i++) {
 			if (i > ((n*2)-1)/2)
 				a++;
-			topRight.put(new Mark(a, b), false);
+			topRight.put(.5*(a + b)*(a + b + 1) + b, false);
 			if (b != (n-1))
 				b++;
 		}
@@ -108,15 +102,5 @@ public class lilBishopsObj {
 			System.out.println("That took " + (endTime - startTime) + " milliseconds");
 		}
 		scan.close();
-	}
-}
-
-class Mark {
-	private int x;
-	private int y;
-	
-	Mark(int x, int y) {
-		this.x = x;
-		this.y = y;
 	}
 }
