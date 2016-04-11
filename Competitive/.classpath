@@ -4,6 +4,7 @@
 	<classpathentry kind="src" path="input"/>
 	<classpathentry kind="src" path="Problem Descriptions"/>
 	<classpathentry kind="src" path="incomplete"/>
+	<classpathentry excluding="problems/buffalo/|problems/drunkard/|problems/fibonacci/|problems/fractions/|problems/lexemes/|problems/snowluck/|problems/spoonerisms/" kind="src" path="balgor"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
