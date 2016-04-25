@@ -7,6 +7,8 @@ public class equityOpt {
 				  		currentAssets, fixedAssets, totalAssets, 
 				  		payables, debt, totalLiabilities;
 
+	private static int dePrefix(String str) { return Integer.parseInt(str.substring(1)); }
+
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
 		boolean pending = false;
@@ -18,23 +20,20 @@ public class equityOpt {
 				char type = temp.charAt(0);
 				
 				switch (type) {
-				
 					case 'N':
 						if (pending) {
 							printStat();
-							pl("");
+							System.out.println("");
 							pending = false;
 						}
 						
 						emptyStat();
-						pl(temp.substring(1));
-						pl("");
+						System.out.println(temp.substring(1) + "\n");
 						break;
-						
 					case 'Y':
 						if (pending) {
 							printStat();
-							pl("");
+							System.out.println();
 						}
 						else
 							pending = true;
@@ -42,42 +41,19 @@ public class equityOpt {
 						Arrays.fill(data, 0);
 						data[0] = dePrefix(temp);
 						break;	//current-year>
-					case 'S':
-						data[1] = dePrefix(temp);
-						break;	//sales>
-					case 'R':
-						data[2] = dePrefix(temp);
-						break;	//received>
-					case 'O':
-						data[3] = dePrefix(temp);
-						break;	//operating-cost>
-					case 'P':
-						data[4] = dePrefix(temp);
-						break;	//paid>
-					case 'C':
-						data[5] = dePrefix(temp);
-						break;	//capital-expenditures>
-					case 'D':
-						data[6] = dePrefix(temp);
-						break;	//depreciation>
-					case 'I':
-						data[7] = dePrefix(temp);
-						break;	//interest>
-					case 'T':
-						data[8] = dePrefix(temp);
-						break;	//taxes>
-					case 'V':
-						data[9] = dePrefix(temp);
-						break;	//dividends>
-					case 'E':
-						data[10] = dePrefix(temp);
-						break;	//new-equity>
-					case 'B':
-						data[11] = dePrefix(temp);
-						break;	//new-debt>
-					case 'G':
-						data[12] = dePrefix(temp);
-						break;	//inventory-change
+					case 'S': data[1] = dePrefix(temp);  break;	//sales>
+					case 'R': data[2] = dePrefix(temp);	 break;	//received>
+					case 'O': data[3] = dePrefix(temp);	 break;	//operating-cost>
+					case 'P': data[4] = dePrefix(temp);	 break;	//paid>
+					case 'C': data[5] = dePrefix(temp);	 break;	//capital-expenditures>
+					case 'D': data[6] = dePrefix(temp);	 break;	//depreciation>
+					case 'I': data[7] = dePrefix(temp);	 break;	//interest>
+					case 'T': data[8] = dePrefix(temp);	 break;	//taxes>
+					case 'V': data[9] = dePrefix(temp);  break;	//dividends>
+					case 'E': data[10] = dePrefix(temp); break;	//new-equity>
+					case 'B': data[11] = dePrefix(temp); break;	//new-debt>
+					case 'G': data[12] = dePrefix(temp); break;	//inventory-change
+					//No Default, expect perfect output per prog description
 				}
 			}
 		}
@@ -104,64 +80,56 @@ public class equityOpt {
 	}
 
 	private static void printStat() {
-		/*
-		 * Y = 0, S = 1, R = 2, O = 3, P = 4, C = 5
-		 * D = 6, I = 7, T = 8, V = 9, E = 10, B = 11
-		 * G = 12
-		 */
+		/* Y = 0, S = 1, R = 2, O = 3, P = 4, C = 5, D = 6, I = 7, T = 8, V = 9, E = 10, B = 11, G = 12 */
 		
-		pl(data[0] + " Income Statement:");
-		pf("  Operating Revenue: %19d\n", data[1]);
-		pf("  Operating Cost: %22d\n",  data[3]);
-		pf("  Depreciation: %24d\n",  data[6]);
+		System.out.println(data[0] + " Income Statement:");
+		System.out.printf("  Operating Revenue: %19d\n", data[1]);
+		System.out.printf("  Operating Cost: %22d\n",  data[3]);
+		System.out.printf("  Depreciation: %24d\n",  data[6]);
 		
 		income = data[1] - data[3] - data[6];
 		
-		pf("  Operating Income: %20d\n",  income);
-		pf("  Interest: %28d\n",  data[7]);
-		pf("  Taxes: %31d\n",  data[8]);
+		System.out.printf("  Operating Income: %20d\n",  income);
+		System.out.printf("  Interest: %28d\n",  data[7]);
+		System.out.printf("  Taxes: %31d\n",  data[8]);
 		
 		earnings = income - data[7] - data[8];
 		
-		pf("  Earnings: %28d\n",  earnings);
-		pf("  Dividends: %27d\n",  data[9]);
-		pf("  Transfer to Equity: %18d\n\n",   (earnings - data[9]));
+		System.out.printf("  Earnings: %28d\n",  earnings);
+		System.out.printf("  Dividends: %27d\n",  data[9]);
+		System.out.printf("  Transfer to Equity: %18d\n\n",   (earnings - data[9]));
 		
-		pl(data[0] + " Balance Sheet:");
+		System.out.println(data[0] + " Balance Sheet:");
 		
 		//Ca +=   R     -    P    -   C     +    E     +   B      -   I     -    T    -   V
 		cash += data[2] - data[4] - data[5] + data[10] + data[11] - data[7] - data[8] - data[9];
-		pf("  Cash: %32d\n",  cash);
+		System.out.printf("  Cash: %32d\n",  cash);
 		
 		inventory += data[12];
-		pf("  Inventory: %27d\n",  inventory);
+		System.out.printf("  Inventory: %27d\n",  inventory);
 		
 		receivables += data[1] - data[2];
-		pf("  Receivables: %25d\n",  receivables);
+		System.out.printf("  Receivables: %25d\n",  receivables);
 		
 		currentAssets = cash + inventory + receivables;
-		pf("  Current Assets: %22d\n",  currentAssets);
+		System.out.printf("  Current Assets: %22d\n",  currentAssets);
 		
 		fixedAssets += data[5] - data[6];
-		pf("  Fixed Assets: %24d\n",  fixedAssets);
+		System.out.printf("  Fixed Assets: %24d\n",  fixedAssets);
 		
 		totalAssets = currentAssets + fixedAssets;
-		pf("  Total Assets: %24d\n", totalAssets);
+		System.out.printf("  Total Assets: %24d\n", totalAssets);
 		
 		payables += data[3] - data[4];
-		pf("  Payables: %28d\n", payables);
-		pf("  Current Liabilities: %17d\n",  payables);
+		System.out.printf("  Payables: %28d\n", payables);
+		System.out.printf("  Current Liabilities: %17d\n",  payables);
 		
 		debt += data[11];
-		pf("  Debt: %32d\n",  debt);
+		System.out.printf("  Debt: %32d\n",  debt);
 		
 		totalLiabilities = payables + debt;
-		pf("  Total Liabilities: %19d\n",  totalLiabilities);
+		System.out.printf("  Total Liabilities: %19d\n",  totalLiabilities);
 		
-		pf("  Equity: %30d\n",  (totalAssets - totalLiabilities));
-	}
-	
-	private static int dePrefix(String str) { return Integer.parseInt(str.substring(1)); }
-	private static void pf(String line, int arg) { System.out.printf(line, arg); }
-	private static void pl(String line) { System.out.println(line); }	
+		System.out.printf("  Equity: %30d\n",  (totalAssets - totalLiabilities));
+	}	
 }
