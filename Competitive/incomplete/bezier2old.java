@@ -2,10 +2,9 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Scanner;
 
-public class bezier {
+public class bezier2old {
 	private static double[][] bpoints, controls;
 	private static boolean[][] bdone;
-	private static double[] store;
 
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
@@ -33,24 +32,19 @@ public class bezier {
 			bpoints = new double[n][n];
 			
 			double[][] braw = new double[m][2];
-			
-			store = new double[2];
-			
+
 			int a = 0;
-			
-			System.out.println(bezier1(0, 0, n - 1, 0));
-			/*for (double t = 0, i = 0; i < m; t = (++i) / m) {
+			for (double t = 0, i = 0; i < m; t = (++i) / m) {
 				
-				//braw[a][0] = bezier1(t, 0, n - 1, 0);
-				System.out.println(bezier1(t, 0, n - 1, 0));
+				braw[a][0] = bezier1(t, 1-t, 0, n - 1, 0);
 
 				bdone = new boolean[n][n];
 				
-				//braw[a++][1] = bezier1(t, 0, n - 1, 1);
+				braw[a++][1] = bezier1(t, 1-t, 0, n - 1, 1);
 				
 				bdone = new boolean[n][n];
-			}*/
-			/*
+			}
+			
 			for (int i = 0; i < m; i++) {
 				if (i % 5 == 0 && i != 0)
 					System.out.println();
@@ -82,9 +76,7 @@ public class bezier {
 				}
 				System.out.println();
 			}
-			*/
 		}
-		
 		scan.close();
 	}
 	
@@ -96,13 +88,19 @@ public class bezier {
 	    return bd.doubleValue();
 	}
 
-	private static String bezier1(double t, int min, int max, int axis) {
+	private static double bezier1(double t, double comp, int min, int max, int axis) {
 		if (max - min == 1) {
-			return "(1 - t) * " + min + " + " + "t * "+ max + " ";
+			if (bdone[min][max]) {
+				return bpoints[min][max];
+			}
+			else {
+				bpoints[min][max] = comp * controls[min][axis] + t * controls[max][axis];
+				bdone[min][max] = true;
+				return bpoints[min][max];
+			}
 		}
 		else {
-			return "(1 - t) * " + bezier1(t, min, max - 1, axis) + "+ t * " + bezier1(t, min + 1, max, axis);
+			return comp * bezier1(t, comp, min, max - 1, axis) + t * bezier1(t, comp, min + 1, max, axis);
 		}
 	}
 }
-

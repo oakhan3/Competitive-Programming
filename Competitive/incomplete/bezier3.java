@@ -1,12 +1,13 @@
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Scanner;
+import java.util.Stack;
 
-public class bezier {
+public class bezier3 {
 	private static double[][] bpoints, controls;
 	private static boolean[][] bdone;
-	private static double[] store;
-
+	private static Stack<Object> ops;
+/*
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
 		
@@ -33,24 +34,21 @@ public class bezier {
 			bpoints = new double[n][n];
 			
 			double[][] braw = new double[m][2];
-			
-			store = new double[2];
-			
+
 			int a = 0;
+			ops = new Stack<Object>();
 			
-			System.out.println(bezier1(0, 0, n - 1, 0));
-			/*for (double t = 0, i = 0; i < m; t = (++i) / m) {
+			for (double t = 0, i = 0; i < m; t = (++i) / m) {
 				
-				//braw[a][0] = bezier1(t, 0, n - 1, 0);
-				System.out.println(bezier1(t, 0, n - 1, 0));
+				braw[a][0] = bezier1(t, 1-t, 0, n - 1, 0);
 
 				bdone = new boolean[n][n];
 				
-				//braw[a++][1] = bezier1(t, 0, n - 1, 1);
+				braw[a++][1] = bezier1(t, 1-t, 0, n - 1, 1);
 				
 				bdone = new boolean[n][n];
-			}*/
-			/*
+			}
+			
 			for (int i = 0; i < m; i++) {
 				if (i % 5 == 0 && i != 0)
 					System.out.println();
@@ -82,9 +80,7 @@ public class bezier {
 				}
 				System.out.println();
 			}
-			*/
 		}
-		
 		scan.close();
 	}
 	
@@ -96,13 +92,30 @@ public class bezier {
 	    return bd.doubleValue();
 	}
 
-	private static String bezier1(double t, int min, int max, int axis) {
+	private static double bezier1(double t, double comp, int min, int max, int axis) {
 		if (max - min == 1) {
-			return "(1 - t) * " + min + " + " + "t * "+ max + " ";
+			ops.push("+");
+			ops.push("*");
+			ops.push("comp");
+			ops.push(controls[min][axis]);
+			ops.push("*");
+			ops.push("t");
+			ops.push(controls[max][axis]);
+			
+			bpoints[min][max] = comp * controls[min][axis] + t * controls[max][axis];
+			bdone[min][max] = true;
+			return bpoints[min][max];
 		}
 		else {
-			return "(1 - t) * " + bezier1(t, min, max - 1, axis) + "+ t * " + bezier1(t, min + 1, max, axis);
+			ops.push("+");
+			ops.push("*");
+			ops.push("comp");
+			bezier1(t, comp, min, max - 1, axis);
+			ops.push("*");
+			ops.push("t");
+			bezier1(t, comp, min + 1, max, axis);
+			
 		}
 	}
+	*/
 }
-

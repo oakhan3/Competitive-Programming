@@ -1,16 +1,12 @@
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class equity {
+public class equityReadable {
 	private static int[] data = new int[13];
 	private static int income, earnings, cash, inventory, receivables, 
 				  		currentAssets, fixedAssets, totalAssets, 
 				  		payables, debt, totalLiabilities;
 
-	private static int dePrefix(String str) {
-		return Integer.parseInt(str.substring(1));
-	}
-	
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
 		boolean pending = false;
@@ -94,10 +90,8 @@ public class equity {
 
 	private static void emptyStat() {
 		Arrays.fill(data, 0);
-		
 		income = 0;
 		earnings = 0;
-		
 		cash = 0;
 		inventory = 0;
 		receivables = 0;
@@ -167,13 +161,7 @@ public class equity {
 		pf("  Equity: %30d\n",  (totalAssets - totalLiabilities));
 	}
 	
-	private static void pf(String line, int arg) {
-		System.out.printf(line, arg);
-	}
-	
-	private static void pl(String line) {
-		System.out.println(line);
-	}
-	
-	
+	private static int dePrefix(String str) { return Integer.parseInt(str.substring(1)); }
+	private static void pf(String line, int arg) { System.out.printf(line, arg); }
+	private static void pl(String line) { System.out.println(line); }	
 }
