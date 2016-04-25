@@ -42,42 +42,20 @@ public class equityReadable {
 						Arrays.fill(data, 0);
 						data[0] = dePrefix(temp);
 						break;	//current-year>
-					case 'S':
-						data[1] = dePrefix(temp);
-						break;	//sales>
-					case 'R':
-						data[2] = dePrefix(temp);
-						break;	//received>
-					case 'O':
-						data[3] = dePrefix(temp);
-						break;	//operating-cost>
-					case 'P':
-						data[4] = dePrefix(temp);
-						break;	//paid>
-					case 'C':
-						data[5] = dePrefix(temp);
-						break;	//capital-expenditures>
-					case 'D':
-						data[6] = dePrefix(temp);
-						break;	//depreciation>
-					case 'I':
-						data[7] = dePrefix(temp);
-						break;	//interest>
-					case 'T':
-						data[8] = dePrefix(temp);
-						break;	//taxes>
-					case 'V':
-						data[9] = dePrefix(temp);
-						break;	//dividends>
-					case 'E':
-						data[10] = dePrefix(temp);
-						break;	//new-equity>
-					case 'B':
-						data[11] = dePrefix(temp);
-						break;	//new-debt>
-					case 'G':
-						data[12] = dePrefix(temp);
-						break;	//inventory-change
+					default:
+						data[
+						     (type == 'S') ? 1 :
+						     (type == 'R') ? 2 :
+						     (type == 'O') ? 3 :
+						     (type == 'P') ? 4 :
+						     (type == 'C') ? 5 :
+						     (type == 'D') ? 6 :
+						     (type == 'I') ? 7 :
+						     (type == 'T') ? 8 :
+						     (type == 'V') ? 9 :
+						     (type == 'E') ? 10 :
+						     (type == 'B') ? 11 :
+						     (type == 'G') ? 12 : 0] = dePrefix(temp);
 				}
 			}
 		}
