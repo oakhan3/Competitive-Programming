@@ -2,11 +2,21 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class equityReadable {
+	//Use one array since data only depends on year prior
 	private static int[] data = new int[13];
+	//Keep these static for access in static methods
 	private static int income, earnings, cash, inventory, receivables, 
 				  		currentAssets, fixedAssets, totalAssets, 
 				  		payables, debt, totalLiabilities;
-
+	
+	//Set to default public to access members, 
+	enum in {
+		Y(0), S(1), R(2), O(3), P(4), C(5), D(6), I(7), T(8), V(9), E(10), B(11), G(12);
+		//Init
+		int dex;
+		in(int index) { dex = index; }
+	}
+	
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
 		boolean pending = false;
@@ -18,7 +28,6 @@ public class equityReadable {
 				char type = temp.charAt(0);
 				
 				switch (type) {
-				
 					case 'N':
 						if (pending) {
 							printStat();
@@ -29,8 +38,7 @@ public class equityReadable {
 						emptyStat();
 						pl(temp.substring(1));
 						pl("");
-						break;
-						
+						break;	
 					case 'Y':
 						if (pending) {
 							printStat();
@@ -43,8 +51,7 @@ public class equityReadable {
 						data[0] = dePrefix(temp);
 						break;	//current-year>
 					default:
-						data[
-						     (type == 'S') ? 1 :
+						data[(type == 'S') ? 1 :
 						     (type == 'R') ? 2 :
 						     (type == 'O') ? 3 :
 						     (type == 'P') ? 4 :
@@ -82,55 +89,49 @@ public class equityReadable {
 	}
 
 	private static void printStat() {
-		/*
-		 * Y = 0, S = 1, R = 2, O = 3, P = 4, C = 5
-		 * D = 6, I = 7, T = 8, V = 9, E = 10, B = 11
-		 * G = 12
-		 */
+		pl(data[in.Y.dex] + " Income Statement:");
+		pf("  Operating Revenue: %19d\n", data[in.S.dex]);
+		pf("  Operating Cost: %22d\n",  data[in.O.dex]);
+		pf("  Depreciation: %24d\n",  data[in.D.dex]);
 		
-		pl(data[0] + " Income Statement:");
-		pf("  Operating Revenue: %19d\n", data[1]);
-		pf("  Operating Cost: %22d\n",  data[3]);
-		pf("  Depreciation: %24d\n",  data[6]);
-		
-		income = data[1] - data[3] - data[6];
+		income = data[in.S.dex] - data[in.O.dex] - data[in.D.dex];
 		
 		pf("  Operating Income: %20d\n",  income);
-		pf("  Interest: %28d\n",  data[7]);
-		pf("  Taxes: %31d\n",  data[8]);
+		pf("  Interest: %28d\n",  data[in.I.dex]);
+		pf("  Taxes: %31d\n",  data[in.T.dex]);
 		
-		earnings = income - data[7] - data[8];
+		earnings = income - data[in.I.dex] - data[in.T.dex];
 		
 		pf("  Earnings: %28d\n",  earnings);
-		pf("  Dividends: %27d\n",  data[9]);
-		pf("  Transfer to Equity: %18d\n\n",   (earnings - data[9]));
+		pf("  Dividends: %27d\n",  data[in.V.dex]);
+		pf("  Transfer to Equity: %18d\n\n",   (earnings - data[in.V.dex]));
 		
-		pl(data[0] + " Balance Sheet:");
+		pl(data[in.Y.dex] + " Balance Sheet:");
 		
-		//Ca +=   R     -    P    -   C     +    E     +   B      -   I     -    T    -   V
-		cash += data[2] - data[4] - data[5] + data[10] + data[11] - data[7] - data[8] - data[9];
+		//Ca +=         R      -         P      -         C      +         E      +         B      -         I      -         T      -         V
+		cash += data[in.R.dex] - data[in.P.dex] - data[in.C.dex] + data[in.E.dex] + data[in.B.dex] - data[in.I.dex] - data[in.T.dex] - data[in.V.dex];
 		pf("  Cash: %32d\n",  cash);
 		
-		inventory += data[12];
+		inventory += data[in.G.dex];
 		pf("  Inventory: %27d\n",  inventory);
 		
-		receivables += data[1] - data[2];
+		receivables += data[in.S.dex] - data[in.R.dex];
 		pf("  Receivables: %25d\n",  receivables);
 		
 		currentAssets = cash + inventory + receivables;
 		pf("  Current Assets: %22d\n",  currentAssets);
-		
-		fixedAssets += data[5] - data[6];
+
+		fixedAssets += data[in.C.dex] - data[in.D.dex];
 		pf("  Fixed Assets: %24d\n",  fixedAssets);
 		
 		totalAssets = currentAssets + fixedAssets;
 		pf("  Total Assets: %24d\n", totalAssets);
 		
-		payables += data[3] - data[4];
+		payables += data[in.O.dex] - data[in.P.dex];
 		pf("  Payables: %28d\n", payables);
 		pf("  Current Liabilities: %17d\n",  payables);
 		
-		debt += data[11];
+		debt += data[in.B.dex];
 		pf("  Debt: %32d\n",  debt);
 		
 		totalLiabilities = payables + debt;
@@ -139,7 +140,7 @@ public class equityReadable {
 		pf("  Equity: %30d\n",  (totalAssets - totalLiabilities));
 	}
 	
-	private static int dePrefix(String str) { return Integer.parseInt(str.substring(1)); }
+	private static int dePrefix(String str)      { return Integer.parseInt(str.substring(1)); }
 	private static void pf(String line, int arg) { System.out.printf(line, arg); }
-	private static void pl(String line) { System.out.println(line); }	
+	private static void pl(String line)          { System.out.println(line); }	
 }
