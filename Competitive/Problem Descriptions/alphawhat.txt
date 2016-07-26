@@ -1,0 +1,72 @@
+The Muddled Alphabetizer
+------------------------
+
+Professor McBits wants you to print out subsets of the
+alphabet in alphabetical order.  The only problem is
+he has a muddled idea of what alphabetical order is.
+But he is the Professor, so you must do what he wants.
+
+For example, the Professor may believe that
+
+	d<b	d<a	b<a	b<c	c<a
+
+which means the letter a, b, c, d have the order
+
+	d b c a
+
+Input
+-----
+
+Several test cases, each consisting of a list of
+instructions.  Each instruction has the form X<Y, where
+X and Y are lower case letters, except for the last
+instruction, which is just `*' to signal the end of
+input for the test case.  The instructions may be
+spread across several lines and with any spacing, but
+each instruction but the last has exactly 3 characters,
+the middle one of which is always `<', and the others
+of which are always LOWER CASE letters.
+
+The input ends with an end of file.
+
+Output
+------
+
+One line per test case containing the letters mentioned
+in the test case instructions in the order specified by
+these instructions.  The letters must be separated by
+a single space character.  There most be no other space
+characters in the output line.
+
+Example Input
+------- -----
+
+d<b
+d<a
+b<a
+b<c
+c<a
+*
+v<c
+k<c
+k<i
+i<v
+v<o
+i<c
+o<c
+k<o
+*
+
+Example Output
+------- ------
+d b c a
+k i v o c
+
+
+File:	   alphawhat.txt
+Author:	   Bob Walton <walton@deas.harvard.edu>
+Date:	   Fri Sep 29 09:37:35 EDT 2006
+
+The authors have placed this file in the public domain;
+they make no warranty and accept no liability for this
+file.
